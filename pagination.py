@@ -11,7 +11,7 @@ def parse(text, chars_limit):
             part = text[first_index:first_index + chars_limit]
             for s in symbols:
                 index = part.rfind(s)
-                if index > last_index:
+                if index >= last_index:
                     last_index = index
             last_index += 2
             part_text.append(paging_text[first_index:first_index + last_index])
@@ -19,4 +19,5 @@ def parse(text, chars_limit):
             if len(text) < first_index:
                 return part_text
 
-print(parse(paging_text, 10))
+for i in parse(paging_text, 1000):
+    print(i, end='\n==============\n')

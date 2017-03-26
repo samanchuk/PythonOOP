@@ -9,15 +9,15 @@ class Pagination:
     def parse(self):
         part_text = []
         first_index = 0
+        last_index = 0
         symbols = ['.', '!', '?', '."', '?"', '!"']
         while len(self.book) > first_index:
-            last_index = 0
             part = self.book[first_index:first_index + self.chars_limit]
             for s in symbols:
                 index = part.rfind(s)
                 if index >= last_index:
                     last_index = index
-            last_index += 1
+            last_index += 2
             part_text.append(self.book[first_index:first_index + last_index])
             first_index = first_index + last_index + 1
         return part_text
@@ -72,8 +72,7 @@ class Pagination:
         self.current_page = 0
 
     def move_to_last_page(self):
-        self.current_page = len(self.pages) - 2
-
+        self.current_page = len(self.pages) - 1
 
 
 text = open('h1.txt', 'r').read()

@@ -1,5 +1,6 @@
 from threading import Thread
 from random import randint
+from time import sleep
 
 
 class Room:
@@ -148,8 +149,17 @@ class Npc(Thread):
     def move_to_room(self):
         exits = list(self.room.exits_rooms().keys())
         rand_exit = exits[randint(0, 1)]
-        self.room
+        self.room = self.room.exits_rooms().get(rand_exit)
         return rand_exit
+
+    def run(self):
+        print('{0} in {1}'.format(self.name, self.room.title))
+        sleep(5)
+        while self.health > 0:
+            self.move_to_room()
+            print('{0} in {1}'.format(self.name, self.room.title))
+            sleep(5)
+
 
 def main():
     handler = Handlers()
@@ -181,13 +191,14 @@ def main():
             break
         handler.run(command)
 
-r1 = Room('1', 'room1', 'this is 1 room', {'south': '3', 'east': '2'})
-r2 = Room('2', 'room2', 'this is 2 room', {'south': '4', 'west': '1'})
-r3 = Room('3', 'room3', 'this is 3 room', {'east': '4', 'north': '1'})
-r4 = Room('4', 'room4', 'this is 4 room', {'north': '2', 'west': '3'})
+r1 = Room('1', 'room #1', 'this is 1 room', {'south': '3', 'east': '2'})
+r2 = Room('2', 'room #2', 'this is 2 room', {'south': '4', 'west': '1'})
+r3 = Room('3', 'room #3', 'this is 3 room', {'east': '4', 'north': '1'})
+r4 = Room('4', 'room #4', 'this is 4 room', {'north': '2', 'west': '3'})
 
 
-ork = Npc('Bolk', 100, 20, r1)
-ork.move_to_room()
+ork = Npc('Bolk', 100, 20, r1).start()
+dwarf = Npc('Gimley', 100, 30, r4).start()
+#print(ork.move_to_room())
 
 # main()
